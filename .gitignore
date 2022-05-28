@@ -1,4 +1,5 @@
 # Files and directories created by pub.
+/lib/auth/secrets.dart
 .dart_tool/
 .packages
 

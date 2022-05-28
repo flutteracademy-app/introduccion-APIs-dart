@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:explication_http/app/data/models/tomorrow_model.dart';
+import 'package:explication_http/auth/secrets.dart';
 import 'package:http/http.dart' as http;
 
 import 'classes/ejercicio_pais/pais.dart';
@@ -51,5 +53,25 @@ void getPais({required String pais}) {
     print(col);
   }).catchError((error) {
     print(error);
+  });
+}
+
+void getWeather() {
+  final queryParameters = {
+    'apikey': tomorrowKeyApi,
+    'location': '-73.98529171943665,40.75872069597532',
+    'fields': 'temperature',
+    'timesteps': '1h',
+    'units': 'metric',
+  };
+
+  var url = Uri.https('api.tomorrow.io', '/v4/timelines', queryParameters);
+
+  http.get(url).then((res) {
+    print(res.body);
+
+    final Tomorrow resReqRes = Tomorrow.fromJson(jsonDecode(res.body));
+
+    print(resReqRes.data!.timelines!.first.startTime);
   });
 }
